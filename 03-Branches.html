@@ -343,10 +343,16 @@
             instead, then you will have booyah/master as your default remote branch.</p>
         <p>You can use
             <strong>git fetch</strong> to update your remote references.</p>
-        <p class="awesome spaceout">Git fetches no data but sets a remote-tracking branch called master to point to the commit that the origin has
-            as its master branch.
+        <p class="awesome spaceout">Git fetches no data but sets a remote-tracking branch called master to point to the commit that the origin has as
+            its master branch.
         </p>
         <h3>Pushing</h3>
         <p>When you want to share a branch you need to push it up to the remote server</p>
+        <p class="awesome spaceout">Don’t type your password every time If you’re using an HTTPS URL to push over, the Git server will ask you for your
+            username and password for authentication. By default it will prompt you on the terminal for this information
+            so the server can tell if you’re allowed to push.
+            <br><br>git config credential.helper store:  Will store your credentials permenantly.
+            <br><br>git config --unset credential.helper: Will resume asking for credentials.
+        </p>
     </div>
 </body>
