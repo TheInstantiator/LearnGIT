@@ -236,7 +236,6 @@
         <p class="examp">
             $ git add -A
             <br>
-            <br> eliotm@EMLaptop MINGW64 /c/Users/eliotm/lessons/learnGIT (master|MERGING)
             <br> $ git status
             <br> On branch master
             <br> Your branch is up to date with 'origin/master'.
@@ -256,5 +255,98 @@
             <br>$ git status -s
             <br>MM 03-Branches.html
         </p>
+        <p>
+            You can now commit the changes and the branch will be merged into a new commit snapshot.
+        </p>
+        <h3>Branch Management</h3>
+        <p>
+            To view your current branches you can just specify git branch.
+            <br> Options:
+            <ul>
+                <li>-v: This will show last commit information</li>
+                <li>-r: will show remote branches</li>
+                <li>--merged / --no-merged: this will show the last commit.
+                    <p>The options described above, --merged and --no-merged will, if not given a commit or branch name as an
+                        argument, show you what is, respectively, merged or not merged into your current branch.</p>
+                </li>
+                <li>-d: Will delete a branch with now commits, if there are unmerged commits it will throw an error.</li>
+                <li>-D: will force delete a branch that has commits.</li>
+            </ul>
+            <p class="examp">
+                $ git branch --merged
+                <br> * master
+                <br> newbranch1
+                <br> newbranch2
+                <br>
+                <br>$ git branch -r
+                <br>origin/master
+                <br>
+                <br>$ git branch -d newbranch2
+                <br>Deleted branch newbranch2 (was 7c383ca).
+                <br>
+                <br>$ git branch -d newbranch1
+                <br>error: The branch 'newbranch1' is not fully merged.
+                <br>If you are sure you want to delete it, run 'git branch -D newbranch1'.
+                <br>
+                <br>$ git branch -D newbranch1
+                <br>Deleted branch newbranch1 (was fc66617).
+            </p>
+        </p>
+        <h3>Branching Workflows</h3>
+        <p>
+            Some common workflows that you could incorporate into your own development cycle.
+        </p>
+        <h5>Long Running Branches</h5>
+        <p>Because Git uses a simple three-way merge, merging from one branch into another multiple times over a long period
+            is generally easy to do. This means you can have several branches that are always open and that you use for different
+            stages of your development cycle; you can merge regularly from some of them into others.
+            <ul>
+                <strong>Branches</strong>
+                <li>Master</li>
+                <li>
+                    <span class="pad10left"></span>Approved Features</li>
+                <li>
+                    <span class="pad10left"></span>
+                    <span class="pad10left"></span>In Testing</li>
+                <li>
+                    <span class="pad10left"></span>
+                    <span class="pad10left"></span>
+                    <span class="pad10left"></span>Development</li>
+                <li>
+                    <span class="pad10left"></span>
+                    <span class="pad10left"></span>
+                    <span class="pad10left"></span>
+                    <span class="pad10left"></span>Experimental</li>
+            </ul>
+            <p>Branches can commit upwards in the chain.</p>
+        </p>
+        <h5>Topic Branches</h5>
+        <p>Topic branches, however, are useful in projects of any size. A topic branch is a short-lived branch that you create
+            and use for a single particular feature or related work.</p>
+        <h3>Remote Branches</h3>
+        <p>Remote references are references (pointers) in your remote repositories, including branches, tags, and so on. You
+            can get a full list of remote references explicitly with git ls-remote [remote], or git remote show [remote]
+            for remote branches as well as more information.</p>
+
+        <p class="examp">
+            $ git ls-remote
+            <br> From https://github.com/TheInstantiator/LearnGIT.git
+            <br> 7c383ca182a17433bf625f27ea1c6c06b8556a4f HEAD
+            <br> 7c383ca182a17433bf625f27ea1c6c06b8556a4f refs/heads/master
+            <br>
+            <br>$ git remote show
+            <br>origin
+        </p>
+        <p>“origin” is not special Just like the branch name “master” does not have any special meaning in Git, neither does
+            “origin”. While “master” is the default name for a starting branch when you run git init which is the only reason
+            it’s widely used, “origin” is the default name for a remote when you run git clone. If you run git clone -o booyah
+            instead, then you will have booyah/master as your default remote branch.</p>
+        <p>You can use
+            <strong>git fetch</strong> to update your remote references.</p>
+        <p class="awesome spaceout">Git fetches no data but sets a remote-tracking branch called master to point to the commit that the origin has
+            as its master branch.
+        </p>
+        <h3>Pushing</h3>
+        <p>When you want to share a branch you need to push it up to the remote server</p>
     </div>
 </body>
