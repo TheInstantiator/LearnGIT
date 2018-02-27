@@ -116,6 +116,10 @@
         </p>
         <h5>Branches diverge upon switching back to master and making changes</h5>
         <img src="diverge.png" alt="branch diverge" width="800" height="380">
+        <p>
+            Because a branch in Git is actually a simple file that contains the 40 character SHA-1 checksum of the commit it points to,
+            branches are cheap to create and destroy.
+        </p>
         <p class="examp">
             $ git log --oneline --decorate --graph --all
             <br> * 41b048e (HEAD -> master) Refactor css
@@ -196,8 +200,61 @@
             to merge them cleanly. If your fix for issue #53 modified the same part of a file as the hotfix branch, you’ll
             get a merge conflict. Git hasn’t automatically created a new merge commit. It has paused the process while you
             resolve the conflict. If you want to see which files are unmerged at any point after a merge conflict, you can
-            run <strong>git status.</strong>
+            run
+            <strong>git status.</strong>
         </p>
-
+        <p class="examp">
+            $ git status
+            <br> On branch master
+            <br> Your branch is up to date with 'origin/master'.
+            <br>
+            <br> You have unmerged paths.
+            <br>
+            <span class="pad10left"></span>(fix conflicts and run "git commit")
+            <br>
+            <span class="pad10left"></span>(use "git merge --abort" to abort the merge)
+            <br>
+            <br> Unmerged paths:
+            <br>
+            <span class="pad10left"></span>(use "git add
+            <file>..." to mark resolution)
+                <br>
+                <br>
+                <span class="pad10left"></span>
+                <span class="pad10left"></span>
+                <span class="pad10left"></span> both modified: 03-Branches.html
+                <br>
+                <br> no changes added to commit (use "git add" and/or "git commit -a")
+                <br>
+                <br> $ git status -s
+                <br> UU 03-Branches.html
+        </p>
+        <p>
+            You can fix the merge conflicts using whatever mergetool you want. After they are resolved you can stage the file. At this
+            point you see:
+        </p>
+        <p class="examp">
+            $ git add -A
+            <br>
+            <br> eliotm@EMLaptop MINGW64 /c/Users/eliotm/lessons/learnGIT (master|MERGING)
+            <br> $ git status
+            <br> On branch master
+            <br> Your branch is up to date with 'origin/master'.
+            <br>
+            <br> All conflicts fixed but you are still merging.
+            <br>
+            <span class="pad10left"></span>(use "git commit" to conclude merge)
+            <br>
+            <br> Changes to be committed:
+            <br>
+            <br>
+            <span class="pad10left"></span>
+            <span class="pad10left"></span>
+            <span class="pad10left"></span>
+            <span class="pad10left"></span>modified: 03-Branches.html
+            <br>
+            <br>$ git status -s
+            <br>MM 03-Branches.html
+        </p>
     </div>
 </body>
