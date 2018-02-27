@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="chapters.css">
+
+    <title>Git Basics</title>
+</head>
+
+<body>
+    <div>
+        <h1>Git Basics</h1>
+    </div>
+    <div>
+        <h3>Geting a Git Repository</h3>
+
+        <h5>Two Ways</h5>
+        <ul class="baseul">
+            <li>Clone a remote repository.</li>
+            <li>Initialize and create a new one.</li>
+        </ul>
+        <hr>
+        <h5>Initialize and create a new repository</h5>
+        <p>
+            To create a new repository for trackging you need to change directory to the root of the project. Once there you type:
+        </p>
+        <p>install git</p>
+        <p>This creates a new subdirectory named .git that contains all of your necessary repository files — a Git repository
+            skeleton. At this point, nothing in your project is tracked yet. To start tracking files you need to use:</p>
+        <ul>
+            <li>git add ( to add files to the
+                <em>staging area</em> )</li>
+            <li>git commit ( to commit the staging area to the main branch )</li>
+        </ul>
+        <hr>
+        <h5>Cloning an existing repository</h5>
+        <p>To clone a hosted repository you use the command
+            <em>git clone &lt;URL&gt;</em>. Git receives a full copy of nearly all data that the server has. Every version of
+            every file for the history of the project is pulled down by default when you run git clone. In fact, if your
+            server disk gets corrupted, you can often use nearly any of the clones on any client to set the server back to
+            the state it was in when it was cloned
+        </p>
+        <p class="examp">
+            $ git clone https://github.com/gitUser/gitProject
+        </p>
+        <p>
+            That creates a directory named gitProject, initializes a .git directory inside it, pulls down all the data for that repository,
+            and checks out a working copy of the latest version. If you go into the new gitProject directory that was just
+            created, you’ll see the project files in there, ready to be worked on or used. If you want to clone the repository
+            into a directory named something other than libgit2, you can specify that as the next command-line option:
+        </p>
+        <p class="examp">
+            $ git clone https://github.com/gitUser/gitProject otherDirName
+        </p>
+        <p>
+            That command does the same thing as the previous one, but the target directory is called mylibgit.
+        </p>
+        <hr>
+        <div>
+            <h3>Recording Changes to the Repository</h3>
+        </div>
+        <p>
+            As you edit files, Git sees them as modified, because you’ve changed them since your last commit. As you work, you selectively
+            stage these modified files and then commit all those staged changes, and the cycle repeats.
+        </p>
+        <h5>Checking the Status of Files</h5>
+        <p>To check the status of the repository use the
+            <em>git status</em> command.</p>
+        <p class="examp">
+            $ git status
+            <br> On branch master
+            <br> Your branch is up-to-date with 'origin/master'.
+            <br> nothing to commit, working directory clean
+        </p>
+        <p>
+            Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run git status,
+            you see your untracked file like so:
+        </p>
+        <p class="examp">
+            $ git status
+            <br> On branch master
+            <br> Your branch is up-to-date with 'origin/master'.
+            <br> Untracked files:
+            <br> (use "git add &lt;file&gt;..." to include in what will be committed)
+            <br>
+            <br> README
+            <br>
+            <br> nothing added to commit but untracked files present (use "git add" to track)
+        </p>
+        <p>To begin tracking the readme use the git add command:
+            <br>
+            <strong>
+                <em>git add README</em>
+            </strong>
+            <br>
+            <br>If you run your status command again, you can see that your README file is now tracked and staged to be committed:</p>
+        <p class="examp">
+            $ git status
+            <br> On branch master
+            <br> Your branch is up-to-date with 'origin/master'.
+            <br> Changes to be committed:
+            <br>
+            <span class="pad10left"></span>(use "git reset HEAD
+            <file>..." to unstage)
+                <br>
+                <br>
+                <span class="pad10left"></span>
+                <span class="pad10left"></span>new file: README
+        </p>
+        <p>You can tell that it’s staged because it’s under the “Changes to be committed” heading. The git add command takes
+            a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory
+            recursively. If you commit at this point, the version of the file at the time you ran git add is what will be
+            in the historical snapshot.</p>
+        <p>If you modify a file after you run git add, you have to run git add again to stage the latest version of the file.
+        </p>
+        <h5>Git Ignore File</h5>
+        <p>Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked.
+            In such cases, you can create a file listing patterns to match them named .gitignore. Here is an example .gitignore
+            file:
+        </p>
+        <p>Check github for more example at:
+            <a href="https://github.com/github/gitignore">link</a>
+            <br>
+            <br>It is possible to have additional .gitignore files in subdirectories. The rules in these nested .gitignore files
+            apply only to the files under the directory where they are located.</p>
+        <p class="examp">
+            $ cat .gitignore
+            <br> *.[oa]
+            <br> *~
+            <br>
+            <br> # ignore all .a files
+            <br> *.a
+            <br>
+            <br> # but do track lib.a, even though you're ignoring .a files above
+            <br> !lib.a
+            <br>
+            <br> # only ignore the TODO file in the current directory, not subdir/TODO
+            <br> /TODO
+            <br>
+            <br> # ignore all files in the build/ directory
+            <br> build/
+            <br>
+            <br> # ignore doc/notes.txt, but not doc/server/arch.txt
+            <br> doc/*.txt
+            <br>
+            <br> # ignore all .pdf files in the doc/ directory and any of its subdirectories
+            <br> doc/**/*.pdf
+            <br>
+            <br>
+        </p>
+        <p>The first line tells Git to ignore any files ending in “.o” or “.a”. The second line tells Git to ignore all files
+            whose names end with a tilde (~).
+        </p>
+        <h5>Git Commit</h5>
+        <p>The simplest way to commit is to type git commit. This will bring up the default editor to type a comment. To type
+            a comment inline type git commit -m "my comments".
+            <br>Adding the -a option to the git commit command makes Git automatically stage every file that is already tracked
+            before doing the commit, letting you skip the git add part: </p>
+        <p class="examp">
+            $git commit -a -m 'added new benchmarks'
+            <br> [master 83e38c7] added new benchmarks
+            <br>
+            <span class="pad10left"></span>1 file changed, 5 insertions(+), 0 deletions(-)
+        </p>
+        <h5>Removing a file</h5>
+        <p>The git rm command removes files from your tracked, and also removes the file from your working directory so you
+            don’t see it as an untracked file the next time around. If you simply remove the file from your working directory,
+            it shows up under the “Changes not staged for commit”. The next time you commit, the file will be gone and no
+            longer tracked. If you modified the file and added it to the staging area already, you must force the removal
+            with the -f option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded
+            in a snapshot and that can’t be recovered from Git.</p>
+        <p>To keep the file on your hard drive but not have Git track it anymore use the --cached option. (git rm --cached README).
+            This is particularly useful if you forgot to add something to your .gitignore file and accidentally staged it.</p>
+        <p class="examp">$ git rm --cached README</p>
+        <p>You can pass files, directories, and file-glob patterns to the git rm command. That means you can do things such
+            as: </p>
+        <p class="examp">$ git rm log/\*.log</p>
+        <p>
+            Note the backslash (\) in front of the *. This is necessary because Git does its own filename expansion in addition to your
+            shell’s filename expansion.</p>
+        <h5>Moving Files</h5>
+        <p>
+            Git doesn’t explicitly track file movement. If you rename a file in Git, no metadata is stored in Git that tells it you renamed
+            the file. If you want to rename a file in Git, you can run something like: </p>
+        <p class="examp">
+            $ git mv file_from file_to
+            <br> $ git mv README.md README
+            <br> $ git status
+            <br> On branch master
+            <br> Your branch is up-to-date with 'origin/master'.
+            <br> Changes to be committed:
+            <br>
+            <span class="pad10left"></span>(use "git reset HEAD
+            <file>..." to unstage)
+                <br>
+                <br>
+                <span class="pad10left"></span>
+                <span class="pad10left"></span>renamed: README.md -> README
+        </p>
+        <p>
+            However, this is equivalent to running something like this:
+            <br>
+        </p>
+        <p class="examp">
+            $ mv README.md README
+            <br> $ git rm README.md
+            <br> $ git add README
+            <br>
+        </p>
+        <p>
+            Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the mv command.
+            The only real difference is that git mv is one command instead of three — it’s a convenience function. More importantly,
+            you can use any tool you like to rename a file, and address the add/rm later, before you commit.
+        </p>
+        <h5>Viewing the commit Hitory</h5>
+        <p>
+            The most basic and powerful tool to do this is the git log command. By default, with no arguments, git log lists the commits
+            made in that repository in reverse chronological order — that is, the most recent commits show up first. A huge
+            number and variety of options to the git log command are available to show you exactly what you’re looking for.
+            Here, we’ll show you some of the most popular.</p>
+
+        <p>-p or --patch: Will show the difference (the patch output) introduced in each commit. You can also limit the number
+            of log entries displayed, such as using -2 to show only the last two entries. You may be wondering what the difference
+            is between author and committer. The author is the person who originally wrote the work, whereas the committer
+            is the person who last applied the work.</p>
+
+        <p>To prevent the display of merge commits cluttering up your log history, simply add the log option --no-merges.</p>
+        <p>If you want to see some abbreviated stats for each commit, you can use the --stat option:</p>
+        <p class="examp">
+            $ git log --stat
+            <br> commit ca82a6dff817ec66f44342007202690a93763949
+            <br> Author: Scott Chacon
+            <schacon@gee-mail.com>
+                <br> Date: Mon Mar 17 21:52:11 2008 -0700
+                <br>
+                <br>
+                <span class="pad10left"></span>
+                <span class="pad10left"></span>changed the version number
+                <br>
+                <br> Rakefile | 2 +-
+                <br> 1 file changed, 1 insertion(+), 1 deletion(-)
+                <br>
+        </p>
+        <p>--pretty: This option changes the log output to formats other than the default. A few prebuilt options are available
+            for you to use. The oneline option prints each commit on a single line, which is useful if you’re looking at
+            a lot of commits. In addition, the short, full, and fuller options show the output in roughly the same format
+            but with less or more information, respectivelyThe format option allows you to specify your own log output format.
+            This is especially useful when you’re generating output for machine parsing</p>
+        <table>
+            <tr>
+                <th>Option</th>
+                <th>Description of Output</th>
+            </tr>
+            <tr>
+                <td>%H </td>
+                <td>Commit hash</td>
+            </tr>
+            <tr>
+                <td>%h </td>
+                <td>Abbreviated commit hash</td>
+            </tr>
+            <tr>
+                <td>%T </td>
+                <td>Tree hash</td>
+            </tr>
+            <tr>
+                <td>%t </td>
+                <td>Abbreviated tree hash</td>
+            </tr>
+            <tr>
+                <td>%P </td>
+                <td>Parent hashes</td>
+            </tr>
+            <tr>
+                <td>%p </td>
+                <td>Abbreviated parent hashes</td>
+            </tr>
+            <tr>
+                <td>%an</td>
+                <td> Author name</td>
+            </tr>
+            <tr>
+                <td>%ae</td>
+                <td> Author email</td>
+            </tr>
+            <tr>
+                <td>%ad</td>
+                <td> Author date (format respects the --date=option)</td>
+            </tr>
+            <tr>
+                <td>%ar</td>
+                <td> Author date, relative</td>
+            </tr>
+            <tr>
+                <td>%cn</td>
+                <td> Committer name</td>
+            </tr>
+            <tr>
+                <td>%ce</td>
+                <td> Committer email</td>
+            </tr>
+            <tr>
+                <td>%cd</td>
+                <td> Committer date</td>
+            </tr>
+            <tr>
+                <td>%cr</td>
+                <td> Committer date, relative</td>
+            </tr>
+            <tr>
+                <td>%s </td>
+                <td>Subject</td>
+            </tr>
+        </table>
+        <p>Table 2. Common options to git log</p>
+        <table>
+            <tr>
+                <th class="thkey">Option</th>
+                <th> Description</th>
+            </tr>
+            <tr>
+                <td>-p</td>
+                <td> Show the patch introduced with each commit.</td>
+            </tr>
+            <tr>
+                <td>--stat</td>
+                <td> Show statistics for files modified in each commit.</td>
+            </tr>
+            <tr>
+                <td>--shortstat</td>
+                <td> Display only the changed/insertions/deletions line from the --stat command.</td>
+            </tr>
+            <tr>
+                <td>--name-only</td>
+                <td> Show the list of files modified after the commit information.</td>
+            </tr>
+            <tr>
+                <td>--name-status</td>
+                <td> Show the list of files affected with added/modified/deleted information as well.</td>
+            </tr>
+            <tr>
+                <td>--abbrev-commit</td>
+                <td> Show only the first few characters of the SHA-1 checksum instead of all 40.</td>
+            </tr>
+            <tr>
+                <td>--relative-date</td>
+                <td> Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.</td>
+            </tr>
+            <tr>
+                <td>--graph</td>
+                <td> Display an ASCII graph of the branch and merge history beside the log output.</td>
+            </tr>
+            <tr>
+                <td>--pretty</td>
+                <td> Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you
+                    specify your own format).</td>
+            </tr>
+            <tr>
+                <td>--oneline</td>
+                <td> Shorthand for --pretty=oneline --abbrev-commit used together.</td>
+            </tr>
+        </table>
+        <h5>Limiting Log Output</h5>
+        <p>
+            In addition to formatting the log, you can apply limit parameters to the function.
+        </p>
+        <p>You can do -&lt;n&gt;, where n is any integer to show the last n commits.</p>
+        <p>--since and --until : example, this command gets the list of commits made in the last two weeks:</p>
+        <p class="examp">
+            $ git log --since=2.weeks
+        </p>
+        <p>This command works with lots of formats — you can specify a specific date like "2008-01-15", or a relative date such
+            as "2 years 1 day 3 minutes ago".</p>
+        <p>The --author option allows you to filter on a specific author, and the --grep option lets you search for keywords
+            in the commit messages.
+        </p>
+        <h5>Undoing Things</h5>
+        <p>Be careful with some of these commands as they may undo things, but the undo cannot be undone.</p>
+        <p>One of the common undos takes place when you commit too early and possibly forget to add some files, or you mess
+            up your commit message. If you want to redo that commit, make the additional changes you forgot, stage them,
+            and commit again using the --amend option: </p>
+        <p class="examp">$ git commit --amend </p>
+        <p>This command takes your staging area and uses it for the commit. If you’ve made no changes since your last commit
+            (for instance, you run this command immediately after your previous commit), then 40 your snapshot will look
+            exactly the same, and all you’ll change is your commit message.</p>
+        <p>Use "git reset HEAD &lt;file&gt;" to unstage a file that is in the staging area.</p>
+        <p>Use "git checkout &lt;file&gt;" to discard changes in working directory</p>
+        <p class="caution">It’s important to understand that git checkout --
+            <file> is a dangerous command. Any changes you made to that file are gone — Git just copied another file over it. Don’t
+                ever use this command unless you absolutely know that you don’t want the file.</p>
+        <h5>Working with Remotes</h5>
+        <p>Remote repositories are versions of your project that are hosted on the Internet or network somewhere. To see which
+            remote servers you have configured, you can run the
+            <strong>git remote</strong> command. It lists the shortnames of each remote handle you’ve specified. If you’ve cloned
+            your repository, you should at least see origin — that is the default name Git gives to the server you cloned
+            from. You can also specify
+            <strong>-v</strong>, which shows you the URLs that Git has stored for the shortname to be used when reading and writing
+            to that remote</p>
+        <p>If you have more than one remote, the command lists them all. For example, a repository with multiple remotes for
+            working with several collaborators might look something like this.</p>
+        <p class="examp">
+            $ git remote -v
+            <br> bakkdoor https://github.com/bakkdoor/grit (fetch)
+            <br> bakkdoor https://github.com/bakkdoor/grit (push)
+            <br> cho45 https://github.com/cho45/grit (fetch)
+            <br> cho45 https://github.com/cho45/grit (push)
+            <br> defunkt https://github.com/defunkt/grit (fetch)
+            <br> defunkt https://github.com/defunkt/grit (push)
+            <br> koke git://github.com/koke/grit.git (fetch)
+            <br> koke git://github.com/koke/grit.git (push)
+            <br> origin git@github.com:mojombo/grit.git (fetch)
+            <br> origin git@github.com:mojombo/grit.git (push)
+        </p>
+        <p>
+            This means we can pull contributions from any of these users pretty easily. We may additionally have permission to push to
+            one or more of these, though we can’t tell that here.
+        </p>
+        <h5>Adding a remote</h5>
+        <p>Use the command
+            <strong>git add
+                <em>shortname</em>
+                <em>url</em>
+            </strong> to add a remote repository.</p>
+        <p>The git clone command implicitly adds the origin remote for you.</p>
+        <p class="examp">$ git clone https://github.com/schacon/ticgit</p>
+        <p>to add a new remote explicitly. To add a new remote Git repository as a shortname you can reference easily, run git
+            remote add
+            <em>shortname</em>
+            <em>url</em>
+        </p>
+        <p>Now you can use the string pb on the command line in lieu of the whole URL.</p>
+        <p class="examp">git fetch pb</p>
+        <h5>Fetch and Pull</h5>
+        <p>As you just saw, to get data from your remote projects, you can run:</p>
+        <p class="examp">$ git fetch
+            <em>remote</em>
+        </p>
+        <p>The command goes out to that remote project and pulls down all the data from that remote project that you don’t have
+            yet. After you do this, you should have references to all the branches from that remote, which you can merge
+            in or inspect at any time. </p>
+        <p>
+            If you clone a repository, the command automatically adds that remote repository under the name “origin”. So, git fetch origin
+            fetches any new work that has been pushed to that server since you cloned (or last fetched from) it.
+        </p>
+        <p class="caution">
+            The git fetch command only downloads the data to your local repository — it doesn’t automatically merge it with any of your
+            work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+        </p>
+        <p>
+            If your current branch is set up to track a remote branch you can use the git pull command to automatically fetch and then
+            merge that remote branch into your current branch. This may be an easier or more comfortable workflow for you;
+            and by default, the git clone command automatically sets up your local master branch to track the remote master
+            branch (or whatever the default branch is called) on the server you cloned from.
+        </p>
+        <p>
+            When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple:
+            git push
+            <em>origin</em>
+            <em>master</em>.</p>
+        <p class="examp">$ git push origin master</p>
+        <p>
+            This command works only if you cloned from a server to which you have write access and if nobody has pushed in the meantime.
+            <p class="caution">If you and someone else clone at the same time and they push upstream and then you push upstream, your push will
+                rightly be rejected. You’ll have to fetch their work first and incorporate it into yours before you’ll be
+                allowed to push.</p>
+        </p>
+        <p>If you want to see more information about a particular remote, you can use the
+            <strong>git remote show origin</strong> command.</p>
+        <p class="examp">$ git remote show origin
+            <br> * remote origin
+            <br> Fetch URL: https://github.com/TheInstantiator/boot-camp.git
+            <br> Push URL: https://github.com/TheInstantiator/boot-camp.git
+            <br> HEAD branch: master
+            <br> Remote branch:
+            <br>
+            <span class="pad10left"></span> tracked
+            <br> Local branch configured for 'git pull':
+            <br>
+            <span class="pad10left"></span> master merges with remote master
+            <br> Local ref configured for 'git push':
+            <br>
+            <span class="pad10left"></span> master pushes to master (up to date)</p>
+        <h5>Renaming and Removing Remotes</h5>
+        <p>You can run git remote rename to change a remote’s shortname. For instance, if you want to rename pb to paul, you
+            can do so with git remote rename:</p>
+        <p class="examp">$ git remote rename pb paul
+            <br> $ git remote
+            <br> origin
+            <br> paul
+        </p>
+        <p class="caution">This changes all your remote-tracking branch names, too. What used to be referenced at pb/master is now at paul/master.</p>
+        <p>If you want to remove a remote for some reason — you’ve moved the server or are no longer using a particular mirror,
+            or perhaps a contributor isn’t contributing anymore — you can either use git remote remove or git remote rm:</p>
+        <p class="examp">$ git remote remove paul
+            <br> $ git remote
+            <br> origin </p>
+        <p class="caution">
+            Once you delete the reference to a remote this way, all remote-tracking branches and configuration settings associated with
+            that remote are also deleted.</p>
+        <h5>Tagging</h5>
+        <p>Like most VCSs, Git has the ability to tag specific points in history as being important. Typically people use this
+            functionality to mark release points (v1.0, and so on). In this section, you’ll learn how to list the available
+            tags, how to create new tags, and what the different types of tags are.</p>
+        <p>Listing the available tags in Git is straightforward. Just type git tag (with optional -l or --list):</p>
+        <p class="examp">$ git tag
+            <br> v0.1
+            <br> v1.3 </p>
+        <p>Use the -l / --list to filter tags: git tag -l myTag (wildcards are supported)</p>
+        <p>Git supports two types of tags: lightweight and annotated.</p>
+        <p>A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. To create
+            a lightweight tag use
+            <strong>git tag</strong> with no options.</p>
+        <p class="examp">$ git tag myTag</p>
+        <p>Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger
+            name, email, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). To
+            create one use
+            <strong>git tag </strong> with -a. You can also use -m to give a message like with a commit.</p>
+        <p class="examp">
+            $ git tag -a v0.5 -m "Almost a version"
+            <br> $ git tag
+            <br> v0.5
+        </p>
+        <p>You can use
+            <strong>git show </strong>to get info on a version.</p>
+        <p class="examp">$ git show v0.5
+            <br> tag v0.5
+            <br> Tagger: ROBBINSVILLE\eliotm &lt;eliotm@lifetimebrands.com&gt;
+            <br> Date: Mon Feb 26 16:35:53 2018 -0500
+            <br>
+            <br> Almost a version
+            <br>
+            <br> commit 80b2919ce66d90523a056a1885c91f2527b5469a (HEAD -> master, tag: v0.5, origin/master, origin/HEAD)
+            <br>Merge: a6eb912 a0a5a83
+            <br> Author: ROBBINSVILLE\eliotm &lt;eliotm@lifetimebrands.com&gt;
+            <br> Date: Mon Feb 26 14:53:56 2018 -0500
+            <br>
+            <br>
+            <span class="pad10left"></span>
+            <span class="pad10left"></span>Merge branch 'master' of https://github.com/TheInstantiator/boot-camp</p>
+        <p>You can also tag commits after you’ve moved past them. Suppose your commit history looks like this:</p>
+        <p>To tag a specific, you specify the commit checksum (or part of it) at the end of the command:</p>
+        <p class="examp">24c36f9 first-commit
+            <br> $ git tag -a v0.1 24c36f9
+            <br> $ git show v0.1
+            <br> tag v0.1
+            <br> Tagger: ROBBINSVILLE\eliotm &lt;eliotm@lifetimebrands.com&gt;
+            <br> Date: Mon Feb 26 16:52:09 2018 -0500
+            <br>
+            <br> Project Started</p>
+        <p>By default, the git push command doesn’t transfer tags to remote servers. You will have to explicitly push tags to
+            a shared server after you have created them. This process is just like sharing remote branches — you can run
+            <strong>git push origin myTag</strong>. If you have a lot of tags that you want to push up at once, you can also use
+            the --tags option to the git push command. This will transfer all of your tags to the remote server that are
+            not already there.</p>
+        <p class="examp">git push origin --tags
+            <br> Counting objects: 2, done.
+            <br>
+            <br> Delta compression using up to 4 threads.
+            <br> Compressing objects: 100% (2/2), done.
+            <br> Writing objects: 100% (2/2), 333 bytes | 333.00 KiB/s, done.
+            <br> Total 2 (delta 0), reused 0 (delta 0)
+            <br> To https://github.com/TheInstantiator/boot-camp.git
+            <br> * [new tag] v0.1 -> v0.1
+            <br> * [new tag] v0.5 -> v0.5
+        </p>
+        <p>If you want to view the versions of files a tag is pointing to, you can do a git checkout, though this puts your
+            repository in “detached HEAD” state, which has some ill side effects.</p>
+        <p class="examp">$ git checkout 2.0.0
+            <br> Note: checking out '2.0.0'.
+            <br>
+            <br> You are in 'detached HEAD' state. You can look around, make experimental
+            <br> changes and commit them, and you can discard any commits you make in this
+            <br> state without impacting any branches by performing another checkout.
+            <br>
+            <br> If you want to create a new branch to retain commits you create, you may
+            <br> do so (now or later) by using -b with the checkout command again. Example:
+            <br>
+            <br>
+            <span class="pad10left"></span>
+            <span class="pad10left"></span>git checkout -b &lt;new-branch&gt;
+            <br>
+            <br> HEAD is now at 99ada87... Merge pull request #89 from schacon/appendix-final</p>
+        <p>
+            In “detached HEAD” state, if you make changes and then create a commit, the tag will stay the same, but your new commit won’t
+            belong to any branch and will be unreachable, except for by the exact commit hash. Thus, if you need to make
+            changes — say you’re fixing a bug on an older version, for instance — you will generally want to create a branch:</p>
+        <p class="examp">
+            $ git checkout -b version2 v2.0.0
+            <br> Switched to a new branch 'version2'</p>
+        <p class="caution">
+            If you do this and make a commit, your version2 branch will be slightly different than your v2.0.0 tag since it will move
+            forward with your new changes, so do be careful.
+        </p>
+        <h5>Aliases</h5>
+        <p>
+            Git doesn’t automatically infer your command if you type it in partially. If you don’t want to type the entire text of each
+            of the Git commands, you can easily set up an alias for each command using git config. Here are a couple of examples
+            you may want to set up: </p>
+        <p class="examp">
+            $ git config --global alias.co checkout
+            <br> $ git config --global alias.br branch
+            <br> $ git config --global alias.ci commit
+            <br> $ git config --global alias.st status
+        </p>
+        <p>This means that, for example, instead of typing git commit, you just need to type git ci</p>
+        <p>to run an external command, rather than a Git subcommand. In that case, you start the command with a ! character.
+            This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing git
+            visual to run gitk:</p>
+        <p class="examp">
+            $ git config --global alias.visual '!gitk'</p>
+    </div>
+</body>
+
+</html>
