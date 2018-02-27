@@ -271,6 +271,29 @@
                 </li>
                 <li>-d: Will delete a branch with now commits, if there are unmerged commits it will throw an error.</li>
                 <li>-D: will force delete a branch that has commits.</li>
+                <li>-vv: will show what current remote branches you are tracking. Will give detail if branch is ahead or behind
+                    upstream branch. <p class="awesome spaceout">It’s important to note that these numbers are only since the last time you fetched from each server.
+                            This command does not reach out to the servers, it’s telling you about what it has cached from these
+                            servers locally. If you want totally up to date ahead and behind numbers, you’ll need to fetch from all
+                            your remotes right before running this. You could do that like this:<br><br>$git fetch --all; git branch -vv</p></li>
+            </ul>
+            <ul>
+                <strong>checkout</strong>
+                <li>git checkout --track remote/branch: checkout and track a remote branch (long version)</li>
+                <li>git checkout branch
+                    <p>If the branch name you’re trying to checkout (a) doesn’t exist and (b) exactly matches a name on only
+                        one remote, Git will create a tracking branch for you</p>
+                </li>
+                <li>git checkout -b sf origin/serverfix: rename remote branch to a new name and track.</li>
+                <li>$ git branch -u origin/serverfix
+                    <p>If you already have a local branch and want to set it to a remote branch you just pulled down, or want
+                        to change the upstream branch you’re tracking, you can use the -u or --set-upstream-to option to
+                        git branch to explicitly set it at any time.</p>
+                    <p class="awesome spaceout">Upstream shorthand
+                        <br> When you have a tracking branch set up, you can reference its upstream branch with the @{upstream}
+                        or @{u} shorthand. So if you’re on the master branch and it’s tracking origin/master, you can say
+                        something like git merge @{u} instead of git merge origin/master if you wish.</p>
+                </li>
             </ul>
             <p class="examp">
                 $ git branch --merged
@@ -290,6 +313,24 @@
                 <br>
                 <br>$ git branch -D newbranch1
                 <br>Deleted branch newbranch1 (was fc66617).
+                <br>
+                <br>$ git branch -vv
+                <br>* master 8a69298 [origin/master] test
+                <br>
+                <br>git checkout --track origin/serverfix
+                <br>Branch serverfix set up to track remote branch serverfix from origin.
+                <br>Switched to a new branch 'serverfix'
+                <br>
+                <br>git checkout serverfix
+                <br>Branch serverfix set up to track remote branch serverfix from origin.
+                <br>Switched to a new branch 'serverfix'
+                <br>
+                <br>git checkout -b sf origin/serverfix
+                <br>Branch serverfix set up to track remote branch serverfix from origin.
+                <br>Switched to a new branch 'sf'
+                <br>
+                <br>$ git branch -u origin/serverfix
+                <br>Branch serverfix set up to track remote branch serverfix from origin.
             </p>
         </p>
         <h3>Branching Workflows</h3>
@@ -351,8 +392,19 @@
         <p class="awesome spaceout">Don’t type your password every time If you’re using an HTTPS URL to push over, the Git server will ask you for your
             username and password for authentication. By default it will prompt you on the terminal for this information
             so the server can tell if you’re allowed to push.
-            <br><br>git config credential.helper store:  Will store your credentials permenantly.
-            <br><br>git config --unset credential.helper: Will resume asking for credentials.
+            <br>
+            <br>git config credential.helper cache: Will store your credentials temporarily.
+            <br>
+            <br>git config credential.helper 'cache --timeout=300': Will store your credentials temporarily with a timeout.
+            <br>
+            <br>git config credential.helper store: Will store your credentials permenantly.
+            <br>
+            <br>git config --unset credential.helper: Will resume asking for credentials.
         </p>
+        <h3>Tracking Branches</h3>
+        <p>Checking out a local branch from a remote-tracking branch automatically creates what is called a “tracking branch”
+            (and the branch it tracks is called an “upstream branch”). Tracking branches are local branches that have a direct
+            relationship to a remote branch. If you’re on a tracking branch and type git pull, Git automatically knows which
+            server to fetch from and branch to merge into.</p>
     </div>
 </body>
