@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="chapters.css">
 
-    <title>Git Basics</title>
+    <title>Git Branches</title>
 </head>
 
 <body>
@@ -51,7 +51,7 @@
             </ul>
             If you make some changes and commit again, the next commit stores a pointer to the commit that came immediately before it.
         </p>
-        <p class="awesome">
+        <p class="awesome spaceout">
             A branch in Git is simply a lightweight movable pointer to one of these commits. The default branch name in Git is master.
             As you start making commits, you’re given a master branch that points to the last commit you made. Every time
             you commit, it moves forward automatically.
@@ -65,7 +65,7 @@
             Creating a new branch creates a new pointer for you to move around. This pointer is to the same commit you’re currently on.
             To keep track of what branch you are currently on GIT keeps a special pointer called HEAD.
         </p>
-        <p class="caution">The git branch command only creates a new branch — it doesn't switch to that branch. HEAD will still point to master.</p>
+        <p class="caution spaceout">The git branch command only creates a new branch — it doesn't switch to that branch. HEAD will still point to master.</p>
         <p>You can see where HEAD is pointing by running a simple git log command that shows you where the branch pointers are
             pointing.
         </p>
@@ -90,7 +90,11 @@
             <br> $ git log --oneline --decorate
             <br> 01aea65 (HEAD -> testing, origin/master, master) Init Commit
         </p>
-        <p class="caution">Switching branches changes files in your working directory!</p>
+        <p>To create the branch and automatically switch to it you can use the following command:</p>
+        <p class="examp">
+            git checkout -b testing
+        </p>
+        <p class="caution spaceout">Switching branches changes files in your working directory! You will not see any uncommited changes.</p>
         <p>If we modify a file and commit we have moved forward but the master branch has stayed where it is. If we switch back
             to the master branch via
             <strong>git checkout master</strong> we will not see those changes. If we now change master and do a commit we will have
@@ -112,5 +116,88 @@
         </p>
         <h5>Branches diverge upon switching back to master and making changes</h5>
         <img src="diverge.png" alt="branch diverge" width="800" height="380">
+        <p class="examp">
+            $ git log --oneline --decorate --graph --all
+            <br> * 41b048e (HEAD -> master) Refactor css
+            <br> | * 6a3d4e9 (testing) More Stuff
+            <br> |/
+            <br> * 4425d3b (origin/master) Merge branch 'master' of https://github.com/TheInstantiator/LearnGIT
+            <br> |\
+            <br> | * 3288ad6 New Changes
+            <br> * | 206cde6 New Changes
+            <br> |/
+            <br> * 01aea65 Init Commit
+        </p>
+        <p>Example: You are branched off of master working on an issue, then you get an emergency hotfix you must do. You switch
+            back to master and create the hotfix branch and make the necessary changes.
+            <strong>You now have two branches off the master branch.</strong>
+        </p>
+        <img src="multi-br.png" alt="multi-branch" width="800" height="380">
+        <p>You now roll in your hotfix by merging the changes into master with the following commands.</p>
+        <p class="examp">
+            $ git checkout master
+            <br> $ git merge hotfix
+            <br> Updating f42c576..3a0874c
+            <br> Fast-forward
+            <br>
+            <span class="pad10left"></span>index.html | 2 ++
+            <br>
+            <span class="pad10left"></span>1 file changed, 2 insertions(+)
+        </p>
+        <img src="merge.png" alt="multi-branch" width="800" height="380">
+        <p>You switch back to your issue and continue to work on it. You finish some more changes and commit those changes.
+            You also delete the hotfix branch as it is now complete.</p>
+        <p class="examp">
+            $ git branch -d hotfix
+            <br> Deleted branch hotfix (3a0874c).
+            <br>
+            <br> $ git checkout iss53
+            <br> Switched to branch "iss53"
+            <br> $ vim index.html
+            <br> $ git commit -a -m 'finished the new footer [issue 53]'
+            <br> [iss53 ad82d7a] finished the new footer [issue 53]
+            <br> 1 file changed, 1 insertion(+)
+            <br>
+        </p>
+        <img src="mergetest.png" alt="multi-branch" width="800" height="380">
+        <p>
+            It’s worth noting here that the work you did in your hotfix branch is not contained in the files in your iss53 branch. If
+            you need to pull it in, you can merge your master branch into your iss53 branch by running git merge master,
+            or you can wait to integrate those changes until you decide to pull the iss53 branch back into master later.
+        </p>
+        <h3>Basic Merging</h3>
+        <p>To merge you switch to the branch you want to merge into (usually master). Then you use the merge command.</p>
+        <p class="examp">
+            $ git checkout master
+            <br> Switched to branch 'master'
+            <br> $ git merge iss53
+            <br> Merge made by the 'recursive' strategy.
+            <br> index.html | 1 +
+            <br> 1 file changed, 1 insertion(+)
+        </p>
+        <p>
+            This looks a bit different than the hotfix merge you did earlier. In this case, your development history has diverged from
+            some older point. Because the commit on the branch you’re on isn’t a direct 65 ancestor of the branch you’re
+            merging in, Git has to do some work. In this case, Git does a simple threeway merge, using the two snapshots
+            pointed to by the branch tips and the common ancestor of the two.
+        </p>
+        <img src="threewaymerge.png" alt="multi-branch" width="800" height="380">
+        <p>
+            Instead of just moving the branch pointer forward, Git creates a new snapshot that results from this three-way merge and
+            automatically creates
+            <strong>a new commit</strong> that points to it. This is referred to as a merge commit, and is special in that it has
+            more than one parent.
+        </p>
+        <img src="mergecommit.png" alt="multi-branch" width="800" height="380">
+        <p>iss53 branch can now be removed, leaving master up to date.</p>
+        <h3>Merge Conflicts</h3>
+        <p>
+            If you changed the same part of the same file differently in the two branches you’re merging together, Git won’t be able
+            to merge them cleanly. If your fix for issue #53 modified the same part of a file as the hotfix branch, you’ll
+            get a merge conflict. Git hasn’t automatically created a new merge commit. It has paused the process while you
+            resolve the conflict. If you want to see which files are unmerged at any point after a merge conflict, you can
+            run <strong>git status.</strong>
+        </p>
+
     </div>
 </body>

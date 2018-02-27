@@ -389,7 +389,7 @@
             exactly the same, and all you’ll change is your commit message.</p>
         <p>Use "git reset HEAD &lt;file&gt;" to unstage a file that is in the staging area.</p>
         <p>Use "git checkout &lt;file&gt;" to discard changes in working directory</p>
-        <p class="caution">It’s important to understand that git checkout --
+        <p class="caution spaceout">It’s important to understand that git checkout --
             <file> is a dangerous command. Any changes you made to that file are gone — Git just copied another file over it. Don’t
                 ever use this command unless you absolutely know that you don’t want the file.</p>
         <h5>Working with Remotes</h5>
@@ -446,7 +446,7 @@
             If you clone a repository, the command automatically adds that remote repository under the name “origin”. So, git fetch origin
             fetches any new work that has been pushed to that server since you cloned (or last fetched from) it.
         </p>
-        <p class="caution">
+        <p class="caution spaceout">
             The git fetch command only downloads the data to your local repository — it doesn’t automatically merge it with any of your
             work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
         </p>
@@ -464,7 +464,7 @@
         <p class="examp">$ git push origin master</p>
         <p>
             This command works only if you cloned from a server to which you have write access and if nobody has pushed in the meantime.
-            <p class="caution">If you and someone else clone at the same time and they push upstream and then you push upstream, your push will
+            <p class="caution spaceout">If you and someone else clone at the same time and they push upstream and then you push upstream, your push will
                 rightly be rejected. You’ll have to fetch their work first and incorporate it into yours before you’ll be
                 allowed to push.</p>
         </p>
@@ -492,13 +492,13 @@
             <br> origin
             <br> paul
         </p>
-        <p class="caution">This changes all your remote-tracking branch names, too. What used to be referenced at pb/master is now at paul/master.</p>
+        <p class="caution spaceout">This changes all your remote-tracking branch names, too. What used to be referenced at pb/master is now at paul/master.</p>
         <p>If you want to remove a remote for some reason — you’ve moved the server or are no longer using a particular mirror,
             or perhaps a contributor isn’t contributing anymore — you can either use git remote remove or git remote rm:</p>
         <p class="examp">$ git remote remove paul
             <br> $ git remote
             <br> origin </p>
-        <p class="caution">
+        <p class="caution spaceout">
             Once you delete the reference to a remote this way, all remote-tracking branches and configuration settings associated with
             that remote are also deleted.</p>
         <h5>Tagging</h5>
@@ -591,7 +591,7 @@
         <p class="examp">
             $ git checkout -b version2 v2.0.0
             <br> Switched to a new branch 'version2'</p>
-        <p class="caution">
+        <p class="caution spaceout">
             If you do this and make a commit, your version2 branch will be slightly different than your v2.0.0 tag since it will move
             forward with your new changes, so do be careful.
         </p>
