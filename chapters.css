@@ -12,31 +12,26 @@ div {
     margin: auto;
 }
 
-.alert {
-    padding-left: 8px;
-    border-left: 5px solid rgb(221, 128, 128);
-    background-color: rgb(226, 220, 220);
+.spaceout {
     padding-top: 10px;
     padding-bottom: 10px;
     font-weight: 600;
+    padding-left: 8px;
+}
+
+.alert {
+    border-left: 5px solid rgb(221, 128, 128);
+    background-color: rgb(226, 220, 220);    
 }
 
 .awesome {
-    padding-left: 8px;
     border-left: 5px solid rgb(15, 116, 29);
     background-color: rgb(218, 243, 214);
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-weight: 600;
 }
 
 .caution {
-    padding-left: 8px;
     border-left: 5px solid rgb(231, 153, 6);
     background-color: rgb(230, 218, 196);
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-weight: 600;
 }
 
 .baseul {

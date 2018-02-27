@@ -98,6 +98,18 @@
             branches and merge them together when you’re ready</p>
         <h5>Test Moves Ahead on Commit</h5>
         <img src="movebranch.png" alt="branch move" width="800" height="380">
+        <p class="examp">
+            $ git log --oneline --decorate --graph --all
+            <br> * 6a3d4e9 (testing) More Stuff
+            <br> *
+            <span class="pad10left"></span>
+            <span class="pad10left"></span>4425d3b (HEAD -> master, origin/master) Merge branch 'master' of https://github.com/TheInstantiator/LearnGIT
+            <br> |\
+            <br> | * 3288ad6 New Changes
+            <br> * | 206cde6 New Changes
+            <br> |/
+            <br> * 01aea65 Init Commit
+        </p>
         <h5>Branches diverge upon switching back to master and making changes</h5>
         <img src="diverge.png" alt="branch diverge" width="800" height="380">
     </div>
